@@ -1,5 +1,7 @@
+from tensorflow.keras.callbacks import ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
+from core.callbacks import TrainingMonitor
 from core.model import build_unet
 from core.utils import hex_to_rgb
 from core.utils import to_labels
@@ -125,11 +127,23 @@ model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accur
 
 if config.MODEL_SUMMARY:
     model.summary()
+    
+callbacks = [
+    TrainingMonitor(fig_path=config.PLOT_PATH),
+    ModelCheckpoint(
+        filepath=config.MID_MODEL_PATH,
+        save_weights_only=True,
+        monitor='val_accuracy',
+        mode='max',
+        save_best_only=True
+    )
+]
 
 H = model.fit(x_train, y_train,
               validation_data=(x_test, y_test),
               batch_size=config.BATCH_SIZE,
               epochs=config.NUM_EPOCHS,
+              callbacks=callbacks,
               verbose=1
           )
 

@@ -30,7 +30,9 @@ THRESHOLD = 0.5
 BASE_OUTPUT = "output"
 
 MODEL_PATH = os.path.join(BASE_OUTPUT, "unet.model")
+MID_MODEL_PATH = os.path.join(BASE_OUTPUT, "unet_checkpoint_{epoch:02d}.model")
 PLOT_PATH = os.path.join(BASE_OUTPUT, "plot.png")
+JSON_PATH = os.path.join(BASE_OUTPUT, "plot.json")
 TEST_PATHS = os.path.join(BASE_OUTPUT, "test_paths.txt")
 
 MODEL_SUMMARY = True
