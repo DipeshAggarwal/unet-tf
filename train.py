@@ -1,4 +1,5 @@
 from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 from core.callbacks import TrainingMonitor
@@ -132,10 +133,14 @@ callbacks = [
     TrainingMonitor(fig_path=config.PLOT_PATH),
     ModelCheckpoint(
         filepath=config.MID_MODEL_PATH,
-        save_weights_only=True,
         monitor='val_accuracy',
         mode='max',
         save_best_only=True
+    ),
+    EarlyStopping(
+        monitor="val_loss",
+        patience=10,
+        mode="min"
     )
 ]
 
